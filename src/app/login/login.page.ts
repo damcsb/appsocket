@@ -3,18 +3,20 @@ import { Router } from '@angular/router';
 import { Service } from "../service/~service";
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { SesionSocket } from '../sockets/sesion.socket';
+import { promise } from 'protractor';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  providers: [ Service ]
+  providers: [ Service, SesionSocket ]
 })
 export class LoginPage
   {
     //
     // CONSTRUCTOR
-    constructor(private router: Router, private http: HttpClient, public alertController: AlertController, private service: Service) { }
+    constructor(private router: Router, private http: HttpClient, public alertController: AlertController, private service: Service, private socket: SesionSocket) { }
 
     email: string;
     password: string;
@@ -27,10 +29,15 @@ export class LoginPage
         // console.log("Esto es el email: " + this.email);
         
       this.service.login(this.http, url, this.email, this.password)
-          .then((data: { token: string }) => 
+          .then((data: { token: string }) =>
+            {
+              localStorage.setItem("token", data.token);
+              return this.socket.connect(url, data.token);
+              
+            })
+          .then((data: any) => 
             {
               console.log({ data });
-              localStorage.setItem("token", data.token);
               this.gotoHome();
             })
           .catch((error: Error) => 

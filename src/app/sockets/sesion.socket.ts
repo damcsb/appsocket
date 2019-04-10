@@ -5,7 +5,7 @@ export class SesionSocket
     public socket: SocketIOClient.Socket;
     //
     // METHODS
-    connect(apiUrl: string, token: string): Promise<string> {
+    connect(apiUrl: string, token: string): Promise<any> {
         this.disconnect();
         this.socket = io.connect(`${ apiUrl }/sesion`, { query: { appToken: token }});
         return new Promise((resolve, reject) => {

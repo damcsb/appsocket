@@ -1,14 +1,37 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+          Home
+      </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+<ion-content padding> 
+  <!--MENU SLIDE-->
+  <ion-menu>
+      <ion-header>
+          <ion-toolbar color="light">
+              <ion-title>Main Menu</ion-title>
+          </ion-toolbar>
+      </ion-header>
+      <ion-content>
+          <ion-list>
+              <ion-menu-toggle auto-hide="false" *ngFor="let p of appMenu">
+                  <!---<ion-item [routerDirection]="'app-home'" [routerLink]="[p.url]">
+                      <ion-icon slot="start" [name]="p.icon"></ion-icon>
+                      <ion-label>{{p.title}}</ion-label>
+                  </ion-item>-->
+                  <ion-item [routerDirection]="'app-home'" [routerLink]="['../login']" (click)="ClearStorage()">
+                    <ion-icon slot="start" [name]="'close-circle'"></ion-icon>
+                    <ion-label>Log Out<output></output></ion-label>
+                  </ion-item>
+              </ion-menu-toggle>
+          </ion-list>
+      </ion-content>
+  </ion-menu>
+  <!-- ROUTER -->
+  <ion-router-outlet main></ion-router-outlet>
 </ion-content>

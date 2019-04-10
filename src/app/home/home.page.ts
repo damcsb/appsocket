@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SesionSocket } from '../sockets/sesion.socket';
 
 
 // import { PublicService } from "./../../services/xtra/~public.service";
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
   export class HomePage
   {
     
-    constructor(private router: Router) { }
+    constructor(private router: Router, public sesionSocket: SesionSocket) { }
 
     public ClearStorage(){
       localStorage.clear();

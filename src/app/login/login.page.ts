@@ -10,13 +10,13 @@ import { promise } from 'protractor';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  providers: [ Service, SesionSocket ]
+  providers: [ Service ]
 })
 export class LoginPage
   {
     //
     // CONSTRUCTOR
-    constructor(private router: Router, private http: HttpClient, public alertController: AlertController, private service: Service, private socket: SesionSocket) { }
+    constructor(private router: Router, private http: HttpClient, public alertController: AlertController, private service: Service, public socket: SesionSocket) { }
 
     email: string;
     password: string;

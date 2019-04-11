@@ -17,8 +17,16 @@ import { SesionSocket } from '../sockets/sesion.socket';
     ngOnInit(){
       let url: string =  "https://froged.herokuapp.com"
 
-      if(localStorage.getItem('token') == null) {
-           this.router.navigate(['/login']);
+    if(localStorage.getItem('token') == null) 
+    {
+        this.router.navigate(['/login']);
+        return;
+    }
+    if(this.sesionSocket.disconnect)
+    {
+        console.log(this.sesionSocket)
+        return this.sesionSocket.connect(url, localStorage.getItem('token'))
+          .catch(() => this.router.navigate(['/login']));
     }
   }
     

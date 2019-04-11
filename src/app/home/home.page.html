@@ -12,7 +12,14 @@
 <ion-content padding> 
 
   <div>
-      NOMBRE: {{ sesionSocket.profile?.name }}
+    <ion-card>
+        <ion-card-header>MAIN INFO</ion-card-header>
+        <ion-card-content><br>
+            Nombre: {{ sesionSocket.profile?.name }}<br><br>
+            biografia: {{ sesionSocket.profile?.bio }}<br><br>
+            email: {{ sesionSocket.profile?.email }}<br><br>
+        </ion-card-content>
+    </ion-card>
   </div>
 
   <!--MENU SLIDE-->

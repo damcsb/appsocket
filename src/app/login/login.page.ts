@@ -4,7 +4,6 @@ import { Service } from "../service/~service";
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { SesionSocket } from '../sockets/sesion.socket';
-import { promise } from 'protractor';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +11,7 @@ import { promise } from 'protractor';
   styleUrls: ['./login.page.scss'],
   providers: [ Service ]
 })
-export class LoginPage
+export class LoginPage implements OnInit
   {
     //
     // CONSTRUCTOR
@@ -20,6 +19,16 @@ export class LoginPage
 
     email: string;
     password: string;
+
+    ngOnInit (){
+      let url: string =  "https://froged.herokuapp.com"
+
+      if(localStorage.getItem('token') != null) {
+          return this.socket.connect(url, localStorage.getItem('token'))
+          .then (() => this.router.navigate(['/home'])          )
+          .catch(() => localStorage.clear())
+      }
+    }
     //
     // METHODS
     login() 
@@ -33,12 +42,11 @@ export class LoginPage
             {
               localStorage.setItem("token", data.token);
               return this.socket.connect(url, data.token);
-              
             })
           .then((data: any) => 
             {
               console.log({ data });
-              this.gotoHome();
+              this.router.navigate(['/home'])
             })
           .catch((error: Error) => 
             { 
@@ -55,9 +63,5 @@ export class LoginPage
           buttons: ['OK']
         });
         await alert.present();
-        }
-
-    gotoHome() {
-        this.router.navigate(['/home'])
-    }  
+        }  
 }

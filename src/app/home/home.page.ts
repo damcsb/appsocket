@@ -12,8 +12,15 @@ import { SesionSocket } from '../sockets/sesion.socket';
 })
 
 
-  export class HomePage
+  export class HomePage implements OnInit
   {
+    ngOnInit(){
+      let url: string =  "https://froged.herokuapp.com"
+
+      if(localStorage.getItem('token') == null) {
+           this.router.navigate(['/login']);
+    }
+  }
     
     constructor(private router: Router, public sesionSocket: SesionSocket) { }
 

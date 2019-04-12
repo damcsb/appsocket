@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SesionSocket } from '../sockets/sesion.socket';
-import { WsSocket } from '../sockets/ws.socket';
-
-// import { PublicService } from "./../../services/xtra/~public.service";
+import { AuthCore } from '../core/auth.core';
 
 @Component({
   selector: 'app-home',
@@ -17,27 +14,30 @@ import { WsSocket } from '../sockets/ws.socket';
     ngOnInit(){
       let url: string =  "https://froged.herokuapp.com"
 
-    if(localStorage.getItem('token') == null) 
-    {
+    if(localStorage.getItem('token') == null)  {
+        console.log("Vuelta 1")
         this.router.navigate(['/login']);
         return;
     }
-    if(this.sesionSocket.disconnect)
-    {
-        return this.sesionSocket.connect(url, localStorage.getItem('token'))
-          .then(() => this.wssocket.connect(url, localStorage.getItem('token'), "company1"))
+    if(this.cAuth.conectado == false) {
+      return this.cAuth.conectarConToken()
           .catch((error) =>{
+            console.log("Vuelta 2")
             this.router.navigate(['/login'])
           });
 
     }
   }
     
-    constructor(private router: Router, public sesionSocket: SesionSocket, public wssocket: WsSocket) { }
+logout() {
+  this.cAuth.desconectar();
+  this.router.navigate(['/login']);
+    
+}
 
-    public ClearStorage(){
-      localStorage.clear();
-    }
+    constructor(private router: Router, public cAuth: AuthCore) { }
+
+    
 
     public appMenu = 
     [

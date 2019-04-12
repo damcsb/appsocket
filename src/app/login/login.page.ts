@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Service } from "../service/~service";
 import { AlertController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
-import { SesionSocket } from '../sockets/sesion.socket';
-import { WsSocket } from '../sockets/ws.socket';
+import { AuthCore } from '../core/auth.core';
 
 @Component({
   selector: 'app-login',
@@ -16,41 +14,21 @@ export class LoginPage implements OnInit
   {
     //
     // CONSTRUCTOR
-    constructor(private router: Router, private http: HttpClient, public alertController: AlertController, private service: Service, public socket: SesionSocket, public wssocket: WsSocket) { }
+    constructor(private router: Router, public alertController: AlertController, public cAuth: AuthCore) { }
 
     email: string;
     password: string;
 
     ngOnInit (){
-      let url: string =  "https://froged.herokuapp.com"
-
-      if(localStorage.getItem('token') != null) {
-          return this.socket.connect(url, localStorage.getItem('token'))
-          .then (() => this.router.navigate(['/home'])          )
-          .catch(() => localStorage.clear())
-      }
+      this.cAuth.conectarConToken();
     }
     //
     // METHODS
     login() 
     {
-        let url: string =  "https://froged.herokuapp.com"
-        //let url: string = "http://jjrc.ddns.net:5000"
-        // console.log("Esto es el email: " + this.email);
-        
-      this.service.login(this.http, url, this.email, this.password)
-          .then((data: { token: string }) =>
-            {
-              localStorage.setItem("token", data.token);
-              return this.socket.connect(url, data.token);
-            })
-          .then((data: { slug : string }) => {
-              console.log(data.slug);
-              return this.wssocket.connect(url, localStorage.getItem('token'), data.slug);
-          })
+        this.cAuth.conectar(this.email, this.password)
           .then((data: any) => 
             {
-             // console.log({ data });
               this.router.navigate(['/home'])
             })
           .catch((error: Error) => 

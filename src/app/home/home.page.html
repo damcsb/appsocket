@@ -15,10 +15,10 @@
     <ion-card>
         <ion-card-header>MAIN INFO</ion-card-header>
         <ion-card-content><br>
-            Nombre: {{ sesionSocket.profile?.name }}<br><br>
-            biografia: {{ sesionSocket.profile?.bio }}<br><br>
-            email: {{ sesionSocket.profile?.email }}<br><br>
-            slug : {{ wssocket.app?.slug }}<br>
+            Nombre: {{ cAuth.sesion.profile?.name }}<br><br>
+            biografia: {{ cAuth.sesion.profile?.bio }}<br><br>
+            email: {{ cAuth.sesion.profile?.email }}<br><br>
+            slug : {{ cAuth.ws.app?.slug }}<br>
         </ion-card-content>
     </ion-card>
   </div>
@@ -37,7 +37,7 @@
                       <ion-icon slot="start" [name]="p.icon"></ion-icon>
                       <ion-label>{{p.title}}</ion-label>
                   </ion-item>-->
-                  <ion-item [routerDirection]="'app-home'" [routerLink]="['../login']" (click)="ClearStorage()">
+                  <ion-item (click)="logout()">
                     <ion-icon slot="start" [name]="'close-circle'"></ion-icon>
                     <ion-label>Log Out<output></output></ion-label>
                   </ion-item>

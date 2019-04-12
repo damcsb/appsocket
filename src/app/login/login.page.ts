@@ -4,6 +4,7 @@ import { Service } from "../service/~service";
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { SesionSocket } from '../sockets/sesion.socket';
+import { WsSocket } from '../sockets/ws.socket';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginPage implements OnInit
   {
     //
     // CONSTRUCTOR
-    constructor(private router: Router, private http: HttpClient, public alertController: AlertController, private service: Service, public socket: SesionSocket) { }
+    constructor(private router: Router, private http: HttpClient, public alertController: AlertController, private service: Service, public socket: SesionSocket, public wssocket: WsSocket) { }
 
     email: string;
     password: string;
@@ -43,9 +44,13 @@ export class LoginPage implements OnInit
               localStorage.setItem("token", data.token);
               return this.socket.connect(url, data.token);
             })
+          .then((data: { slug : string }) => {
+              console.log(data.slug);
+              return this.wssocket.connect(url, localStorage.getItem('token'), data.slug);
+          })
           .then((data: any) => 
             {
-              console.log({ data });
+             // console.log({ data });
               this.router.navigate(['/home'])
             })
           .catch((error: Error) => 

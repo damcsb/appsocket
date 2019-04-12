@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SesionSocket } from '../sockets/sesion.socket';
-
+import { WsSocket } from '../sockets/ws.socket';
 
 // import { PublicService } from "./../../services/xtra/~public.service";
 
@@ -24,13 +24,16 @@ import { SesionSocket } from '../sockets/sesion.socket';
     }
     if(this.sesionSocket.disconnect)
     {
-        console.log(this.sesionSocket)
         return this.sesionSocket.connect(url, localStorage.getItem('token'))
-          .catch(() => this.router.navigate(['/login']));
+          .then(() => this.wssocket.connect(url, localStorage.getItem('token'), "company1"))
+          .catch((error) =>{
+            this.router.navigate(['/login'])
+          });
+
     }
   }
     
-    constructor(private router: Router, public sesionSocket: SesionSocket) { }
+    constructor(private router: Router, public sesionSocket: SesionSocket, public wssocket: WsSocket) { }
 
     public ClearStorage(){
       localStorage.clear();

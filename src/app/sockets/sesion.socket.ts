@@ -13,16 +13,15 @@ export class SesionSocket
             this.socket.on('GET', (data) => {
                 this.profile = data.agent;
                 resolve(data);
-                console.log(data);
-                console.log(this.profile);
+              //  console.log(data);
+              console.log(this.profile);
               });
             this.socket.on('REJECT', (data) => {
                 reject();
-                console.log("Adiós")
               });
             this.socket.on('PROFILE', (data) => {
+                console.log("refrescando datos")
                 this.profile = data.agent;
-                console.log("hola");
               });
           });
       }

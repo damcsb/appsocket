@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SesionSocket } from './sockets/sesion.socket';
+import { WsSocket } from './sockets/ws.socket';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { SesionSocket } from './sockets/sesion.socket';
     StatusBar,
     SplashScreen,
     SesionSocket,
+    WsSocket,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
